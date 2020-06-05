@@ -18,9 +18,11 @@ def main():
         port=port,
         connect_kwargs={
             "password": password})
-    conn.run('ifconfig')
-    conn.run('ls')
-
+    # conn.run('ln -s ~/sites/learning_log/nginx.conf $PREFIX/etc/nginx/servers/learning_log.conf')
+    # conn.run("")
+    # conn.run("""source ~/.virtualenvs/l_l/bin/activate &&
+    #             cd ~/sites/learning_log/ && ls &&
+    #             pip list && pip install --upgrade -r requirements.txt && pip list""")
     # run('cd %s && git pull' % source_folder)
     # run("""
     #     cd {} &&
