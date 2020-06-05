@@ -8,8 +8,11 @@ password = 'lhl666666'
 host = '192.168.144.7'
 # 一般情况下为 22 端口，如果非 22 端口请查看你的主机服务提供商提供的信息
 port = '8022'
-
-
+folder = "~/sites/learning_log/"
+install = "pip install -r requirements.txt"
+collectstatic = "python3 manage.py collectstatic --noinput"
+migrate = "python3 manage.py migrate"
+gunicorn_start = "gunicorn learning_log.wsgi:application -c gunicorn.conf.py"
 def main():
     # source_folder = ''
     conn = Connection(
@@ -19,17 +22,10 @@ def main():
         connect_kwargs={
             "password": password})
     # conn.run('ln -s ~/sites/learning_log/nginx.conf $PREFIX/etc/nginx/servers/learning_log.conf')
-    # conn.run("")
-    # conn.run("""source ~/.virtualenvs/l_l/bin/activate &&
-    #             cd ~/sites/learning_log/ && ls &&
-    #             pip list && pip install --upgrade -r requirements.txt && pip list""")
-    # run('cd %s && git pull' % source_folder)
-    # run("""
-    #     cd {} &&
-    #     ../env/bin/pip install -r requirements.txt &&
-    #     ../env/bin/python3 manage.py collectstatic --noinput &&
-    #     ../env/bin/python3 manage.py migrate
-    #     """.format(source_folder))
+    # conn.run("""cd ~/sites/learning_log/ &&
+    #             git pull origin master""")
+    conn.run(f"""source ~/.virtualenvs/l_l/bin/activate &&
+            cd {folder} && {gunicorn_start}""")
     # sudo('restart gunicorn-demo.zmrenwu.com')
     # sudo('service nginx reload')
 
