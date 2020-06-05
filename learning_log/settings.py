@@ -81,13 +81,13 @@ WSGI_APPLICATION = 'learning_log.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test',
-        'USER': 'lihl',
-        'PASSWORD': 'lhl666666',
-        'HOST': '127.0.0.1'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'test',
+        # 'USER': 'lihl',
+        # 'PASSWORD': 'lhl666666',
+        # 'HOST': '127.0.0.1'
     }
 }
 
