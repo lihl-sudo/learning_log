@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 第三方app
     'bootstrap4',
-    # 'gunicorn',
+    'gunicorn',
     # 我的app
     'learning_logs',
     'users',
