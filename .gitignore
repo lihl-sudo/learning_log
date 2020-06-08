@@ -4,4 +4,6 @@ __pycache__/
 .DS_Store
 .idea/
 *.log
-fabfile.py
+deployment/mysql/data/
+deployment/redis/
+deployment/tmp
