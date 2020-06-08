@@ -3,6 +3,7 @@ django-bootstrap4
 django-redis
 gunicorn
 mysqlclient
+# gevent
 # PyMySQL==0.9.3
 # mysql-connector-python
 redis
