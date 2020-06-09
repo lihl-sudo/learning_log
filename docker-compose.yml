@@ -32,19 +32,22 @@ services:
     networks:
       - db_network
 
-
   nginx:
-    build: deployment/nginx
+    # build: deployment/nginx
+    image: nginx
     ports:
       - "80:80"
     #  - "443:443"
     expose:
       - "8000"
     volumes:
-      - ./static:/usr/share/nginx/html/static  # 挂载静态文件
-      - ./static/media:/usr/share/nginx/html/media  # 挂载上传文件
+      # - ./static:/usr/share/nginx/html/static  # 挂载静态文件
+      # - ./static/media:/usr/share/nginx/html/media  # 挂载上传文件
       # - ./deployment/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
       # - ./deployment/nginx/ssl:/usr/share/nginx/ssl # 挂载ssl证书目录
+      - ./deployment/nginx:/etc/nginx/conf.d
+      - static-volumes:/app/static
+      - log-volumes:/app/deployment/tmp/logs
     links:
       - web
     depends_on:
@@ -55,11 +58,13 @@ services:
 
   web:
     build: .
+    image: pypy-django:slim
     expose:
       - "8000"
     volumes:
       - .:/app
-    #  - ./deployment/tmp/logs:/tmp
+      - static-volumes:/app/static
+      - log-volumes:/app/deployment/tmp/logs
     command: sh start.sh
     links:
       - db
@@ -73,10 +78,13 @@ services:
       - db_network
 
 
-
 networks:
   web_network:
     driver: bridge
   db_network:
     driver: bridge
 
+
+volumes:
+  static-volumes:
+  log-volumes:

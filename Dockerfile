@@ -7,11 +7,11 @@ MAINTAINER lhl 783654214@qq.com
 # 设置 python 环境变量
 ENV PYTHONUNBUFFERED 1
 
-# 将 my_blog 文件夹为工作目录
+# 将 app 文件夹为工作目录
 WORKDIR /app
 
 # 将当前目录加入到工作目录中（. 表示当前目录）
-ADD . .
+ADD requirements.txt .
 
 # 利用 pip 安装依赖（- i 表示指定清华源，默认源下载过慢）
 RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
