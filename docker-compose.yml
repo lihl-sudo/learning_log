@@ -60,7 +60,7 @@ services:
     volumes:
       - .:/app
     #  - ./deployment/tmp/logs:/tmp
-    command: bash start.sh
+    command: sh start.sh
     links:
       - db
       - redis

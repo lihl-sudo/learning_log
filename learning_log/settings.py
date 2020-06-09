@@ -161,16 +161,6 @@ CACHES = {
 
 
 if os.getcwd() == '/app':
-    DEBUG = False
-    # 收集app静态文件到项目目录使nginx能访问到
-    STATIC_ROOT = os.path.join(BASE_DIR, "static")
-    # 执行python manage.py collectstatic
-    # 会将app中所含有的静态文件自动收集到项目的setting目录下，解决了某些app，比如admin在部署后找不到静态文件的现象
-    # STATICFILES_FINDERS = (
-    #     "django.contrib.staticfiles.finders.FileSystemFinder",
-    #     "django.contrib.staticfiles.finders.AppDirectoriesFinder"
-    # )
-    # STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'static'))]
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
@@ -201,6 +191,17 @@ if os.getcwd() == '/app':
             },
         },
     }
+    # 执行python manage.py collectstatic
+    # 会将app中所含有的静态文件自动收集到项目的setting目录下，解决了某些app，比如admin在部署后找不到静态文件的现象
+    # STATICFILES_FINDERS = (
+    #     "django.contrib.staticfiles.finders.FileSystemFinder",
+    #     "django.contrib.staticfiles.finders.AppDirectoriesFinder"
+    # )
+    # STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'static'))]
+    # 收集app静态文件到项目目录使nginx能访问到
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+    DEBUG = False
+
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "session"
