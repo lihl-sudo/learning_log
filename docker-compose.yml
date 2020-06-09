@@ -43,6 +43,7 @@ services:
     volumes:
       - ./static:/usr/share/nginx/html/static  # 挂载静态文件
       - ./static/media:/usr/share/nginx/html/media  # 挂载上传文件
+      # - ./deployment/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
       # - ./deployment/nginx/ssl:/usr/share/nginx/ssl # 挂载ssl证书目录
     links:
       - web
@@ -57,7 +58,7 @@ services:
     expose:
       - "8000"
     volumes:
-      - .:/learning_log
+      - .:/app
     #  - ./deployment/tmp/logs:/tmp
     command: bash start.sh
     links:

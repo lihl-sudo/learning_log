@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '7tom8t9g6d0cz%8f8+86yj_$pc)jt$wf)(7xb40f$g9$+9dh^z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -85,12 +85,10 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
-        # 'ENGINE': 'mysql.connector.django',
         'NAME': 'test',
         'USER': 'lihl',
         'PASSWORD': 'lhl666666',
-        # 'HOST': '127.0.0.1',
-        'HOST': 'db',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
         'OPTIONS': {'charset': 'utf8mb4'},
     }
@@ -136,29 +134,23 @@ USE_TZ = True
 
 # 我的设置
 STATIC_URL = '/static/'
-# 收集app静态文件到项目目录使nginx能访问到
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
-
-# 执行python manage.py collectstatic
-# 会将app中所含有的静态文件自动收集到项目的setting目录下，解决了某些app，比如admin在部署后找不到静态文件的现象
-STATICFILES_FINDERS = (
-    "django.contrib.staticfiles.finders.FileSystemFinder",
-    "django.contrib.staticfiles.finders.AppDirectoriesFinder"
-)
-# STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'static')),]
 
 
 # bootstrap3的设置
 LOGIN_URL = '/users/login/'
 
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
 
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://redis:6379',  # redis（容器）
-        # 'LOCATION': 'redis://127.0.0.1:6379',
+        'LOCATION': 'redis://127.0.0.1',
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    },
+    'session': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1/1',  # redis（容器）
         'OPTIONS': {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "CONNECTION_POOL_KWARGS": {"max_connections": 100},
@@ -166,3 +158,49 @@ CACHES = {
         },
     },
 }
+
+
+if os.getcwd() == '/app':
+    DEBUG = False
+    # 收集app静态文件到项目目录使nginx能访问到
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+    # 执行python manage.py collectstatic
+    # 会将app中所含有的静态文件自动收集到项目的setting目录下，解决了某些app，比如admin在部署后找不到静态文件的现象
+    # STATICFILES_FINDERS = (
+    #     "django.contrib.staticfiles.finders.FileSystemFinder",
+    #     "django.contrib.staticfiles.finders.AppDirectoriesFinder"
+    # )
+    # STATICFILES_DIRS = [(os.path.join(BASE_DIR, 'static'))]
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'test',
+            'USER': 'lihl',
+            'PASSWORD': 'lhl666666',
+            'HOST': 'db',
+            'PORT': '3306',
+            'OPTIONS': {'charset': 'utf8mb4'},
+        }
+    }
+
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': 'redis://redis:6379',
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            },
+        },
+        'session': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': 'redis://redis:6379/2',  # redis（容器）
+            'OPTIONS': {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+                "CONNECTION_POOL_KWARGS": {"max_connections": 100},
+                'SOCKET_TIMEOUT': 10,
+            },
+        },
+    }
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "session"
