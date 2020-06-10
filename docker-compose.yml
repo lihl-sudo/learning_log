@@ -1,7 +1,9 @@
-version: "3.1"
+version: "3.7"
 services:
   redis:
     image: redis
+    environment:
+      TZ: Asia/Shanghai
     command: redis-server
     volumes:
       - ./deployment/redis:/data
@@ -19,8 +21,6 @@ services:
       MYSQL_USER: lihl
       MYSQL_PASSWORD: lhl666666
       TZ: Asia/Shanghai
-    command:
-      --default-authentication-plugin=mysql_native_password
     volumes:
       - ./deployment/mysql/data:/var/lib/mysql  # 挂载数据库数据
       - ./deployment/mysql/conf/my.cnf:/etc/mysql/my.cnf  # 挂载配置文件
@@ -35,6 +35,8 @@ services:
   nginx:
     # build: deployment/nginx
     image: nginx
+    environment:
+      TZ: Asia/Shanghai
     ports:
       - "80:80"
     #  - "443:443"
@@ -65,7 +67,14 @@ services:
       - .:/app
       - static-volumes:/app/static
       - log-volumes:/app/deployment/tmp/logs
-    command: sh start.sh
+    command:   # sh start.sh
+      - /bin/sh
+      - -c
+      - |
+        pypy3 manage.py collectstatic --noinput&&
+        pypy3 manage.py makemigrations&&
+        pypy3 manage.py migrate&&
+        gunicorn learning_log.wsgi:application -c gunicorn.conf.py
     links:
       - db
       - redis

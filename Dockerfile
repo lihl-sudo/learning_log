@@ -6,7 +6,7 @@ MAINTAINER lhl 783654214@qq.com
 
 # 设置 python 环境变量
 ENV PYTHONUNBUFFERED 1
-
+ENV TZ=Asia/Shanghai
 # 将 app 文件夹为工作目录
 WORKDIR /app
 
@@ -16,7 +16,8 @@ ADD requirements.txt .
 # 利用 pip 安装依赖（- i 表示指定清华源，默认源下载过慢）
 RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
     apt update && apt install -y --no-install-recommends libmariadbd-dev gcc && \
-    pip install -U pip -r requirements.txt  -i https://pypi.tuna.tsinghua.edu.cn/simple/
+    pip install -U pip -r requirements.txt  -i https://pypi.tuna.tsinghua.edu.cn/simple/ && \
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 #设置环境变量
 ENV SPIDER=/app

@@ -6,7 +6,7 @@
 # 4. 根据数据库可执行文件来修改数据库
 # 5. 用 gunicorn 启动 django 服务
 # celery multi start w1 -A celery_tasks.tasks worker -l info&&
-#pypy3 manage.py collectstatic --noinput&&
-#pypy3 manage.py makemigrations&&
-#pypy3 manage.py migrate&&
+pypy3 manage.py collectstatic --noinput&&
+pypy3 manage.py makemigrations&&
+pypy3 manage.py migrate&&
 gunicorn learning_log.wsgi:application -c gunicorn.conf.py
