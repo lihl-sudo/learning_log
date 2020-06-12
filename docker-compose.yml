@@ -67,21 +67,14 @@ services:
       - .:/app
       - static-volumes:/app/static
       - log-volumes:/app/deployment/tmp/logs
-    command:   # sh start.sh
-      - /bin/sh
-      - -c
-      - |
-        pypy3 manage.py collectstatic --noinput&&
-        pypy3 manage.py makemigrations&&
-        pypy3 manage.py migrate&&
-        gunicorn learning_log.wsgi:application -c gunicorn.conf.py
+    command: ["./wait-for-it.sh", "-s", "-t", "0", "db:3306", "--", "sh", "start.sh"]
     links:
       - db
       - redis
     depends_on:
       - db
       - redis
-    restart: always
+    # restart: always
     networks:
       - web_network
       - db_network
