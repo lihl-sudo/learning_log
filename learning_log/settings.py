@@ -158,7 +158,25 @@ CACHES = {
         },
     },
 }
+BOOTSTRAP4 = {
+    "css_url": {
+        "href": "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+    },
+    "javascript_url": {
+        "url": "https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"
+    },
+    "theme_url": None,
+    "jquery_url": {
+        "url": "https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"
+    },
+    "jquery_slim_url": {
+        "url": "https://cdn.staticfile.org/jquery/3.3.1/jquery.slim.min.js"
+    },
+    "popper_url": {
+        "url": "https://cdn.staticfile.org/popper.js/1.14.7/umd/popper.min.js"
+    },
 
+}
 
 if os.getcwd() == '/app':
     DATABASES = {
